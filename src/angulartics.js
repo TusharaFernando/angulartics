@@ -229,15 +229,17 @@ function $analyticsRun($rootScope, $window, $analytics, $injector) {
           noRoutesOrStates = false;
           break;
         }
-        $rootScope.$on('$routeChangeSuccess', function (event, current) {
-          if (current && (current.$$route||current).redirectTo) return;
-          var url = $analytics.settings.pageTracking.basePath + $location.url();
-          pageTrack(url, $location);
-        });
       }
       if ($injector.has('$state')) {
         noRoutesOrStates = false;
         $rootScope.$on('$stateChangeSuccess', function (event, current) {
+          var url = $analytics.settings.pageTracking.basePath + $location.url();
+          pageTrack(url, $location);
+        });
+      }
+      else{
+        $rootScope.$on('$routeChangeSuccess', function (event, current) {
+          if (current && (current.$$route||current).redirectTo) return;
           var url = $analytics.settings.pageTracking.basePath + $location.url();
           pageTrack(url, $location);
         });
